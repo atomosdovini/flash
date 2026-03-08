@@ -1,0 +1,248 @@
+{
+  "timestamp": "2026-03-08T16:48:13.102Z",
+  "participants": [
+    {
+      "participant": {
+        "name": "ruby",
+        "dir": "/home/dev/flash/participants/ruby",
+        "port": 3004
+      },
+      "correctness": {
+        "total": 39,
+        "passed": 35,
+        "failed": 4,
+        "tests": [
+          {
+            "name": "Concurrency operations > concurrent-clicks-100: 100 parallel clicks are all counted",
+            "status": "failed",
+            "duration": 682.006062,
+            "error": "AssertionError: expected 404 to be 301 // Object.is equality\n    at /home/dev/flash/tests/correctness/concurrency.test.ts:18:26\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at file:///home/dev/flash/tests/correctness/node_modules/@vitest/runner/dist/chunk-hooks.js:752:20"
+          },
+          {
+            "name": "Concurrency operations > concurrent-clicks-500: 500 parallel clicks are all counted",
+            "status": "failed",
+            "duration": 1683.2391420000001,
+            "error": "AssertionError: expected 404 to be 301 // Object.is equality\n    at /home/dev/flash/tests/correctness/concurrency.test.ts:36:26\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at file:///home/dev/flash/tests/correctness/node_modules/@vitest/runner/dist/chunk-hooks.js:752:20"
+          },
+          {
+            "name": "Concurrency operations > concurrent-creates-same-code: 10 parallel creates with same custom_code yield exactly 1 success",
+            "status": "passed",
+            "duration": 15.428989999999885
+          },
+          {
+            "name": "Concurrency operations > concurrent-creates-same-url: 20 parallel creates with same URL all return same code",
+            "status": "passed",
+            "duration": 38.10755300000028
+          },
+          {
+            "name": "Concurrency operations > hash-uniqueness-50: 50 different URLs generate 50 unique codes",
+            "status": "failed",
+            "duration": 240.1260400000001,
+            "error": "SyntaxError: Unexpected token 'P', \"Puma caugh\"... is not valid JSON\n    at JSON.parse (<anonymous>)\n    at parseJSONFromBytes (node:internal/deps/undici/undici:5852:19)\n    at successSteps (node:internal/deps/undici/undici:5833:27)\n    at fullyReadBody (node:internal/deps/undici/undici:4725:9)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at consumeBody (node:internal/deps/undici/undici:5842:7)\n    at async Promise.all (index 10)\n    at /home/dev/flash/tests/correctness/concurrency.test.ts:99:20\n    at file:///home/dev/flash/tests/correctness/node_modules/@vitest/runner/dist/chunk-hooks.js:752:20"
+          },
+          {
+            "name": "Concurrency operations > concurrent-redirects-burst: 200 parallel redirects to same URL all return 301 correctly",
+            "status": "passed",
+            "duration": 472.51704199999995
+          },
+          {
+            "name": "CRUD operations > create-basic: POST /urls creates a short URL with correct response shape",
+            "status": "passed",
+            "duration": 180.284215
+          },
+          {
+            "name": "CRUD operations > create-with-custom-code: POST /urls with custom_code sets the code",
+            "status": "passed",
+            "duration": 6.839617999999973
+          },
+          {
+            "name": "CRUD operations > create-with-expiration: POST /urls with expires_at in future sets expiration",
+            "status": "passed",
+            "duration": 9.564739000000031
+          },
+          {
+            "name": "CRUD operations > create-invalid-url: POST /urls with invalid URL returns 400",
+            "status": "passed",
+            "duration": 4.709340999999995
+          },
+          {
+            "name": "CRUD operations > create-duplicate-custom-code: POST /urls with duplicate custom_code returns 409",
+            "status": "passed",
+            "duration": 7.8625639999999635
+          },
+          {
+            "name": "CRUD operations > create-expired-date: POST /urls with expires_at in past returns 400",
+            "status": "passed",
+            "duration": 5.534896000000003
+          },
+          {
+            "name": "CRUD operations > get-existing: GET /urls/:id returns the created URL",
+            "status": "passed",
+            "duration": 5.498851000000002
+          },
+          {
+            "name": "CRUD operations > get-nonexistent: GET /urls/:id with unknown ID returns 404",
+            "status": "passed",
+            "duration": 5.989465999999993
+          },
+          {
+            "name": "CRUD operations > update-url: PATCH /urls/:id updates the url field",
+            "status": "passed",
+            "duration": 9.908812999999952
+          },
+          {
+            "name": "CRUD operations > update-expiration: PATCH /urls/:id updates expires_at",
+            "status": "passed",
+            "duration": 12.468975
+          },
+          {
+            "name": "CRUD operations > delete-existing: DELETE /urls/:id returns 204 and subsequent GET returns 404",
+            "status": "passed",
+            "duration": 10.842049000000031
+          },
+          {
+            "name": "CRUD operations > delete-nonexistent: DELETE /urls/:id with unknown ID returns 404",
+            "status": "passed",
+            "duration": 2.6932820000000106
+          },
+          {
+            "name": "CRUD operations > idempotent-create: POST /urls with same URL twice returns same code with 200",
+            "status": "passed",
+            "duration": 6.032407000000035
+          },
+          {
+            "name": "CRUD operations > idempotent-create-with-custom-code: POST same URL with custom_code on second call is ignored, returns existing",
+            "status": "passed",
+            "duration": 9.759828000000027
+          },
+          {
+            "name": "Pagination operations > pagination-default: GET /urls returns 10 items with meta.total=15",
+            "status": "passed",
+            "duration": 5.949636999999996
+          },
+          {
+            "name": "Pagination operations > pagination-page-2: GET /urls?page=2 returns remaining 5 items",
+            "status": "passed",
+            "duration": 2.128119999999967
+          },
+          {
+            "name": "Pagination operations > pagination-custom-per-page: GET /urls?per_page=5 returns 5 items",
+            "status": "passed",
+            "duration": 1.7342869999999948
+          },
+          {
+            "name": "Pagination operations > pagination-order-desc: first item in list has the most recent created_at",
+            "status": "passed",
+            "duration": 1.8041210000000092
+          },
+          {
+            "name": "QR Code operations > qr-code-basic: GET /urls/:id/qr returns base64 PNG QR code",
+            "status": "passed",
+            "duration": 83.034749
+          },
+          {
+            "name": "QR Code operations > qr-code-not-found: GET /urls/:id/qr with unknown ID returns 404",
+            "status": "passed",
+            "duration": 11.630802000000017
+          },
+          {
+            "name": "QR Code operations > qr-code-different-urls: different URLs generate different QR codes",
+            "status": "passed",
+            "duration": 34.687809000000016
+          },
+          {
+            "name": "QR Code operations > qr-code-content-type: GET /urls/:id/qr returns application/json",
+            "status": "passed",
+            "duration": 35.01405399999999
+          },
+          {
+            "name": "Redirect operations > redirect-basic: GET /:code returns 301 with Location header pointing to original URL",
+            "status": "failed",
+            "duration": 85.10105800000002,
+            "error": "AssertionError: expected 404 to be 301 // Object.is equality\n    at /home/dev/flash/tests/correctness/redirect.test.ts:14:24\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at file:///home/dev/flash/tests/correctness/node_modules/@vitest/runner/dist/chunk-hooks.js:752:20"
+          },
+          {
+            "name": "Redirect operations > redirect-increments-clicks: GET /:code three times increments click_count to 3",
+            "status": "passed",
+            "duration": 27.33045199999998
+          },
+          {
+            "name": "Redirect operations > redirect-not-found: GET /:code with nonexistent code returns 404",
+            "status": "passed",
+            "duration": 6.403634000000011
+          },
+          {
+            "name": "Redirect operations > redirect-expired: GET /:code for expired URL returns 410",
+            "status": "passed",
+            "duration": 3039.3971030000002
+          },
+          {
+            "name": "Stats operations > stats-with-clicks: GET /urls/:id/stats returns click_count, clicks_per_day and clicks_per_hour after clicks",
+            "status": "passed",
+            "duration": 76.95754399999998
+          },
+          {
+            "name": "Stats operations > stats-no-clicks: GET /urls/:id/stats returns click_count=0 with empty arrays",
+            "status": "passed",
+            "duration": 18.278482999999994
+          },
+          {
+            "name": "Stats operations > stats-not-found: GET /urls/:id/stats with unknown ID returns 404",
+            "status": "passed",
+            "duration": 7.174655000000001
+          },
+          {
+            "name": "Validation operations > code-format: auto-generated code is at least 6 alphanumeric characters",
+            "status": "passed",
+            "duration": 100.15515000000002
+          },
+          {
+            "name": "Validation operations > custom-code-too-long: POST /urls with custom_code exceeding 16 chars returns 400",
+            "status": "passed",
+            "duration": 6.740037000000001
+          },
+          {
+            "name": "Validation operations > url-very-long: POST /urls with a valid 2000-char URL returns 201",
+            "status": "passed",
+            "duration": 9.02963600000001
+          },
+          {
+            "name": "Validation operations > content-type-json: POST /urls response has Content-Type application/json",
+            "status": "passed",
+            "duration": 7.3448999999999955
+          }
+        ]
+      },
+      "load": {
+        "throughput": {
+          "totalRequests": 25431,
+          "rps": 505.61084890253414,
+          "errorRate": 0.04325429593802839,
+          "duration": 50297.575804
+        },
+        "latency": {
+          "p50": 0,
+          "p95": 217.78102564999998,
+          "p99": 0,
+          "composite": 87.11241025999999
+        }
+      },
+      "scores": {
+        "correctness": 249,
+        "throughput": 300,
+        "latency": 200,
+        "total": 749
+      }
+    }
+  ],
+  "ranking": [
+    {
+      "rank": 1,
+      "name": "ruby",
+      "total": 749,
+      "correctness": 249,
+      "throughput": 300,
+      "latency": 200
+    }
+  ]
+}
