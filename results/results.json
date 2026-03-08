@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-08T18:23:23.878Z",
+  "timestamp": "2026-03-08T21:20:37.769Z",
   "participants": [
     {
       "participant": {
@@ -15,212 +15,212 @@
           {
             "name": "Concurrency operations > concurrent-clicks-100: 100 parallel clicks are all counted",
             "status": "passed",
-            "duration": 308.61245
+            "duration": 314.912591
           },
           {
             "name": "Concurrency operations > concurrent-clicks-500: 500 parallel clicks are all counted",
             "status": "passed",
-            "duration": 874.454712
+            "duration": 529.253082
           },
           {
             "name": "Concurrency operations > concurrent-creates-same-code: 10 parallel creates with same custom_code yield exactly 1 success",
             "status": "passed",
-            "duration": 16.522132000000056
+            "duration": 64.36347300000011
           },
           {
             "name": "Concurrency operations > concurrent-creates-same-url: 20 parallel creates with same URL all return same code",
             "status": "passed",
-            "duration": 26.01582099999996
+            "duration": 27.62740000000008
           },
           {
             "name": "Concurrency operations > hash-uniqueness-50: 50 different URLs generate 50 unique codes",
             "status": "passed",
-            "duration": 56.36890200000016
+            "duration": 42.753157999999985
           },
           {
             "name": "Concurrency operations > concurrent-redirects-burst: 200 parallel redirects to same URL all return 301 correctly",
             "status": "passed",
-            "duration": 381.00087600000006
+            "duration": 145.14272000000005
           },
           {
             "name": "CRUD operations > create-basic: POST /urls creates a short URL with correct response shape",
             "status": "passed",
-            "duration": 64.494025
+            "duration": 126.89475299999998
           },
           {
             "name": "CRUD operations > create-with-custom-code: POST /urls with custom_code sets the code",
             "status": "passed",
-            "duration": 10.509006
+            "duration": 4.705258000000015
           },
           {
             "name": "CRUD operations > create-with-expiration: POST /urls with expires_at in future sets expiration",
             "status": "passed",
-            "duration": 9.102573000000007
+            "duration": 7.656588999999997
           },
           {
             "name": "CRUD operations > create-invalid-url: POST /urls with invalid URL returns 400",
             "status": "passed",
-            "duration": 7.792426999999975
+            "duration": 4.456659999999999
           },
           {
             "name": "CRUD operations > create-duplicate-custom-code: POST /urls with duplicate custom_code returns 409",
             "status": "passed",
-            "duration": 9.866495999999984
+            "duration": 5.197554999999966
           },
           {
             "name": "CRUD operations > create-expired-date: POST /urls with expires_at in past returns 400",
             "status": "passed",
-            "duration": 6.386613999999952
+            "duration": 5.433381999999995
           },
           {
             "name": "CRUD operations > get-existing: GET /urls/:id returns the created URL",
             "status": "passed",
-            "duration": 6.756869999999992
+            "duration": 4.160694999999976
           },
           {
             "name": "CRUD operations > get-nonexistent: GET /urls/:id with unknown ID returns 404",
             "status": "passed",
-            "duration": 6.812513000000024
+            "duration": 2.818227000000036
           },
           {
             "name": "CRUD operations > update-url: PATCH /urls/:id updates the url field",
             "status": "passed",
-            "duration": 7.704589999999996
+            "duration": 8.963895000000036
           },
           {
             "name": "CRUD operations > update-expiration: PATCH /urls/:id updates expires_at",
             "status": "passed",
-            "duration": 11.976985000000013
+            "duration": 6.747642999999982
           },
           {
             "name": "CRUD operations > delete-existing: DELETE /urls/:id returns 204 and subsequent GET returns 404",
             "status": "passed",
-            "duration": 9.731415000000027
+            "duration": 5.771798999999987
           },
           {
             "name": "CRUD operations > delete-nonexistent: DELETE /urls/:id with unknown ID returns 404",
             "status": "passed",
-            "duration": 3.1395860000000084
+            "duration": 2.1750040000000013
           },
           {
             "name": "CRUD operations > idempotent-create: POST /urls with same URL twice returns same code with 200",
             "status": "passed",
-            "duration": 6.06996700000002
+            "duration": 4.643591000000015
           },
           {
             "name": "CRUD operations > idempotent-create-with-custom-code: POST same URL with custom_code on second call is ignored, returns existing",
             "status": "passed",
-            "duration": 9.569289999999967
+            "duration": 5.5125960000000305
           },
           {
             "name": "Pagination operations > pagination-default: GET /urls returns 10 items with meta.total=15",
             "status": "passed",
-            "duration": 3.9175930000000108
+            "duration": 3.6812649999999962
           },
           {
             "name": "Pagination operations > pagination-page-2: GET /urls?page=2 returns remaining 5 items",
             "status": "passed",
-            "duration": 2.4335889999999836
+            "duration": 1.6047729999999945
           },
           {
             "name": "Pagination operations > pagination-custom-per-page: GET /urls?per_page=5 returns 5 items",
             "status": "passed",
-            "duration": 5.018472999999972
+            "duration": 2.28535500000001
           },
           {
             "name": "Pagination operations > pagination-order-desc: first item in list has the most recent created_at",
             "status": "passed",
-            "duration": 2.6627060000000142
+            "duration": 2.8750180000000114
           },
           {
             "name": "QR Code operations > qr-code-basic: GET /urls/:id/qr returns base64 PNG QR code",
             "status": "passed",
-            "duration": 210.948477
+            "duration": 106.046065
           },
           {
             "name": "QR Code operations > qr-code-not-found: GET /urls/:id/qr with unknown ID returns 404",
             "status": "passed",
-            "duration": 5.674326000000008
+            "duration": 8.172500000000014
           },
           {
             "name": "QR Code operations > qr-code-different-urls: different URLs generate different QR codes",
             "status": "passed",
-            "duration": 60.68975900000004
+            "duration": 45.544355000000024
           },
           {
             "name": "QR Code operations > qr-code-content-type: GET /urls/:id/qr returns application/json",
             "status": "passed",
-            "duration": 36.241115000000036
+            "duration": 21.393272000000024
           },
           {
             "name": "Redirect operations > redirect-basic: GET /:code returns 301 with Location header pointing to original URL",
             "status": "passed",
-            "duration": 67.81448599999999
+            "duration": 60.631584000000004
           },
           {
             "name": "Redirect operations > redirect-increments-clicks: GET /:code three times increments click_count to 3",
             "status": "passed",
-            "duration": 23.015864000000022
+            "duration": 17.77443600000001
           },
           {
             "name": "Redirect operations > redirect-not-found: GET /:code with nonexistent code returns 404",
             "status": "passed",
-            "duration": 5.344907999999975
+            "duration": 8.692495999999977
           },
           {
             "name": "Redirect operations > redirect-expired: GET /:code for expired URL returns 410",
             "status": "passed",
-            "duration": 3016.989428
+            "duration": 3017.415642
           },
           {
             "name": "Stats operations > stats-with-clicks: GET /urls/:id/stats returns click_count, clicks_per_day and clicks_per_hour after clicks",
             "status": "passed",
-            "duration": 73.062827
+            "duration": 80.52662800000002
           },
           {
             "name": "Stats operations > stats-no-clicks: GET /urls/:id/stats returns click_count=0 with empty arrays",
             "status": "passed",
-            "duration": 17.371019999999987
+            "duration": 12.031655999999998
           },
           {
             "name": "Stats operations > stats-not-found: GET /urls/:id/stats with unknown ID returns 404",
             "status": "passed",
-            "duration": 9.272133999999994
+            "duration": 3.5100260000000105
           },
           {
             "name": "Validation operations > code-format: auto-generated code is at least 6 alphanumeric characters",
             "status": "passed",
-            "duration": 89.86546799999999
+            "duration": 45.454655
           },
           {
             "name": "Validation operations > custom-code-too-long: POST /urls with custom_code exceeding 16 chars returns 400",
             "status": "passed",
-            "duration": 5.852829000000014
+            "duration": 6.171474000000018
           },
           {
             "name": "Validation operations > url-very-long: POST /urls with a valid 2000-char URL returns 201",
             "status": "passed",
-            "duration": 7.738747000000018
+            "duration": 4.441623000000021
           },
           {
             "name": "Validation operations > content-type-json: POST /urls response has Content-Type application/json",
             "status": "passed",
-            "duration": 8.506474999999995
+            "duration": 5.447444000000019
           }
         ]
       },
       "load": {
         "throughput": {
-          "totalRequests": 44290,
-          "rps": 881.7792209065567,
+          "totalRequests": 51068,
+          "rps": 1018.6099203079399,
           "errorRate": 0,
-          "duration": 50227.992393
+          "duration": 50134.991798
         },
         "latency": {
           "p50": 0,
-          "p95": 98.77912194999989,
+          "p95": 93.29544699999998,
           "p99": 0,
-          "composite": 39.51164877999996
+          "composite": 37.31817879999999
         }
       },
       "scores": {

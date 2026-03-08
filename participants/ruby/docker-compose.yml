@@ -6,6 +6,8 @@ services:
     environment:
       - PORT=3000
       - DATABASE_URL=postgres://rinha:rinha@db:5432/rinha?sslmode=disable
+      - MAX_THREADS=16
+      - DB_POOL=24
     depends_on:
       db:
         condition: service_healthy
@@ -17,6 +19,7 @@ services:
 
   db:
     image: postgres:16-alpine
+    command: ["postgres", "-c", "synchronous_commit=off"]
     environment:
       - POSTGRES_USER=rinha
       - POSTGRES_PASSWORD=rinha

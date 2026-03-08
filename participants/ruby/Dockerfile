@@ -3,8 +3,9 @@ FROM ruby:3.3-slim
 RUN apt-get update && apt-get install -y --no-install-recommends build-essential libpq-dev && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-RUN gem install rack rackup puma sequel pg rqrcode chunky_png
+RUN gem install rack rackup puma sequel pg rqrcode chunky_png oj
 COPY config.ru .
 
+ENV RUBY_YJIT_ENABLE=1
 EXPOSE 3000
-CMD ["puma", "-b", "tcp://0.0.0.0:3000", "-w", "1", "-t", "12:12", "config.ru"]
+CMD ["puma", "-b", "tcp://0.0.0.0:3000", "-w", "1", "-t", "16:16", "config.ru"]

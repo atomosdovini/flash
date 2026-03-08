@@ -1,5 +1,5 @@
 # config.ru
-require "json"
+require "oj"
 require "sequel"
 require "securerandom"
 require "uri"
@@ -8,7 +8,7 @@ require "base64"
 require "rqrcode"
 require "chunky_png"
 
-MAX_THREADS = ENV.fetch("MAX_THREADS", "12").to_i
+MAX_THREADS = ENV.fetch("MAX_THREADS", "16").to_i
 DB_POOL = ENV.fetch("DB_POOL", (MAX_THREADS + 4).to_s).to_i
 QR_CACHE_MAX = ENV.fetch("QR_CACHE_MAX", "2000").to_i
 
@@ -33,9 +33,10 @@ CLICKS = DB[:clicks]
 HOST = ENV.fetch("BASE_URL", "http://localhost:3000")
 QR_CACHE = {}
 QR_CACHE_LOCK = Mutex.new
+CONTENT_JSON = {"content-type"=>"application/json"}.freeze
 
 def json(status, body)
-  [status, {"content-type"=>"application/json"}, [JSON.generate(body)]]
+  [status, CONTENT_JSON, [Oj.dump(body, mode: :compat)]]
 end
 
 def now
@@ -101,7 +102,7 @@ run lambda { |env|
 
   # CREATE URL
   if method == "POST" && path == "/urls"
-    data = JSON.parse(req.body.read) rescue {}
+    data = Oj.load(req.body.read) rescue {}
     url = data["url"]
     custom_code = data["custom_code"]
     expires_at = data["expires_at"]
@@ -193,7 +194,7 @@ run lambda { |env|
 
     # UPDATE
     if method=="PATCH" && suffix==""
-      data = JSON.parse(req.body.read) rescue {}
+      data = Oj.load(req.body.read) rescue {}
       updates = {}
 
       if data["url"]
