@@ -8,9 +8,9 @@ require "base64"
 require "rqrcode"
 require "chunky_png"
 
-WORKER_COUNT = ENV.fetch("WEB_CONCURRENCY", "2").to_i
-MAX_THREADS = ENV.fetch("MAX_THREADS", "8").to_i
-DB_POOL = ENV.fetch("DB_POOL", (WORKER_COUNT * MAX_THREADS + 4).to_s).to_i
+MAX_THREADS = ENV.fetch("MAX_THREADS", "12").to_i
+DB_POOL = ENV.fetch("DB_POOL", (MAX_THREADS + 4).to_s).to_i
+QR_CACHE_MAX = ENV.fetch("QR_CACHE_MAX", "2000").to_i
 
 def connect_db_with_retry(database_url, retries: 30, delay_seconds: 1, max_connections: 20)
   attempt = 0
@@ -31,6 +31,8 @@ URLS   = DB[:urls]
 CLICKS = DB[:clicks]
 
 HOST = ENV.fetch("BASE_URL", "http://localhost:3000")
+QR_CACHE = {}
+QR_CACHE_LOCK = Mutex.new
 
 def json(status, body)
   [status, {"content-type"=>"application/json"}, [JSON.generate(body)]]
@@ -60,6 +62,18 @@ end
 
 def short_url(code)
   "#{HOST}/#{code}"
+end
+
+def cached_qr(code)
+  cached = QR_CACHE[code]
+  return cached if cached
+
+  generated = Base64.strict_encode64(RQRCode::QRCode.new(short_url(code)).as_png(size: 200).to_s)
+  QR_CACHE_LOCK.synchronize do
+    return QR_CACHE[code] if QR_CACHE.key?(code)
+    QR_CACHE.shift while QR_CACHE.size >= QR_CACHE_MAX
+    QR_CACHE[code] = generated
+  end
 end
 
 def serialize(row)
@@ -124,18 +138,15 @@ run lambda { |env|
       end
 
       desired_code = custom_code
-
       loop do
         code = desired_code || SecureRandom.alphanumeric(6)
         begin
-          URLS.insert(
-            code: code,
-            url: url,
-            expires_at: expires_at,
-            created_at: now,
-            updated_at: now
-          )
-          row = URLS.where(code: code).first
+          ts = now
+          row = DB.fetch(<<~SQL, code, url, expires_at, ts, ts).first
+            INSERT INTO urls (code, url, expires_at, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?)
+            RETURNING id, code, url, expires_at, created_at, updated_at, click_count
+          SQL
           status = 201
           payload = serialize(row)
           break
@@ -197,8 +208,11 @@ run lambda { |env|
       end
 
       updates[:updated_at]=now
-      URLS.where(id:id).update(updates)
-      row = URLS.where(id:id).first
+      row = URLS
+        .where(id: id)
+        .returning(:id, :code, :url, :expires_at, :created_at, :updated_at, :click_count)
+        .update(updates)
+      row = row.first if row.is_a?(Array)
       return json(200,serialize(row))
     end
 
@@ -240,10 +254,7 @@ run lambda { |env|
 
     # QR
     if method=="GET" && suffix=="/qr"
-      qr = RQRCode::QRCode.new(short_url(row[:code]))
-      png = qr.as_png(size:200)
-      b64 = Base64.strict_encode64(png.to_s)
-      return json(200,{qr_code:b64})
+      return json(200,{qr_code: cached_qr(row[:code])})
     end
   end
 
@@ -258,10 +269,17 @@ run lambda { |env|
     end
 
     clicked_at = now
-    DB.transaction do
-      URLS.where(id: row[:id]).update(click_count: Sequel[:click_count] + 1)
-      CLICKS.insert(url_id: row[:id], clicked_at: clicked_at)
-    end
+    DB.fetch(<<~SQL, row[:id], clicked_at).all
+      WITH updated AS (
+        UPDATE urls
+        SET click_count = click_count + 1
+        WHERE id = ?
+        RETURNING id
+      )
+      INSERT INTO clicks (url_id, clicked_at)
+      SELECT id, ?
+      FROM updated
+    SQL
 
     return [301,{"location"=>row[:url]},[]]
   end

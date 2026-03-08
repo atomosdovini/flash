@@ -7,4 +7,4 @@ RUN gem install rack rackup puma sequel pg rqrcode chunky_png
 COPY config.ru .
 
 EXPOSE 3000
-CMD ["puma", "-b", "tcp://0.0.0.0:3000", "-w", "2", "-t", "8:8", "--preload", "config.ru"]
+CMD ["puma", "-b", "tcp://0.0.0.0:3000", "-w", "1", "-t", "12:12", "config.ru"]
